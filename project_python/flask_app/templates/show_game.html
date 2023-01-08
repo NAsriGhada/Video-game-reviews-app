@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Gamers Hub</title>
+</head>
+<body>
+<div>
+    <div class="navbar">
+        <h1 >Gamers <span class="span">Hub</span> </h1>
+        <div class="nav_bar">
+            <a href="/companies/dashbord">Home</a>
+            <a href="/games">Games</a>
+           
+            <button class="btn btn-danger"><a href="/logout">Logout</a> </button>
+            
+        </div>
+    </div>
+  
+    <div class="bgi">
+        <div class="gamers">
+          <div class="box ">
+            <div class="desc" style="display: flex ;">
+              <div class="card-block " style="width: 50%;">
+                <h2  style="font-size: 3.25rem;">{{this_game.title}}</h2>
+                
+                <div>
+                    {%if this_game.avg==0%}
+                    <div>
+                        <span class="fa fa-star "></span>
+
+                    </div>
+                    {%else%}
+                    {%for rate in range(this_game.avg)%}
+                    <span class="fa fa-star checked"></span>
+                
+                {%endfor%}
+                {%endif%}
+                </div>
+                
+                <p style="font-size: none;">
+                  {{this_game.description}}
+                </p>
+              </div>
+              <div class="ga" style="width: 80%;">
+                <video controls  id="game_video">
+                    <source src="{{ url_for('static', filename='The Legend of Zelda.mp4') }}" type="video/mp4" >
+                    </video>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 50%;margin:50px auto;">
+        <form action="/{{this_game.id}}/add/review" method="post">
+            <div class="form-group">
+                <input type="hidden" name="user_id" value="{{session.user_id}}">
+                <label for="">Rating By Stars:</label>
+                <select name="rate" id="" class="form-control" style="width: 50px;">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                </select>
+            </div>
+           <div class="form-group">
+            <label for="">Reviews:</label>
+            <textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
+           </div> 
+            <button class="btn btn-danger">submit</button>
+        </form>
+    </div>
+    
+    
+</div>
+
+
+
+
+<div class=" container our_games" >
+    {%for review in list_reviews%}
+    <div class=" review " >
+        
+        <h3>{{review.first_name}} {{review.last_name}}</h3>
+        {%for i in range(review.rate) %}
+        <span class="fa fa-star checked"></span>
+        {%endfor%}
+        
+        <p>{{review.content}}</p>
+        
+    </div>
+    {%endfor%}
+    </div>
+    
+</div>
+<div class="footer">
+    © 2022 All Rights Reserved. 
+</div>
+</body>
+</html>

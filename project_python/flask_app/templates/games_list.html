@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Gamers Hub</title>
+</head>
+<body>
+    <div class="navbar">
+        <h1 >Gamers <span class="span">Hub</span> </h1>
+        <div class="nav_bar">
+            <a href="/">Home</a>
+            <a href="/games">Games</a>
+            {% if session.user_id %}
+            <button class="btn btn-danger"><a href="/logout">Logout</a> </button>
+            {%else%}
+            <a href="/companies/">Companies</a>
+            <button class="btn btnregister-danger"><a href="/register_login">Sign Up</a> </button>
+            <button class="btn btn-danger"><a href="/register_login">Login</a> </button>
+            {%endif%}
+        </div>
+    </div>
+    <div class="container" style="margin-bottom: 100px;">
+        
+        {% for game in list_games %}
+           <div class="box">
+            <img src="https://s1.gaming-cdn.com/images/products/2616/616x353/the-legend-of-zelda-breath-of-the-wild-switch-switch-game-nintendo-eshop-europe-cover.jpg?v=1649856929" alt="">
+            <div class="desc">
+                <h4>{{game.title}}</h4>
+                    <p>{{game.description}}</p> 
+                    <p>{{game.avg}}</p>
+                   
+                    <div >
+                        {%for avg in range(game.avg)%}
+                    <span class="fa fa-star checked"></span>
+                    {%endfor%}
+                </div>
+                
+                <button class="btn btn-dark"><a href="/games/{{game.id}}">Read more</a></button>
+            </div>
+        </div>
+           {%endfor%}
+    </div>
+    <div class="footer">
+        © 2022 All Rights Reserved. 
+    </div>
+</body>
+</html>

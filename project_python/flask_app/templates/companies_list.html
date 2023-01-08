@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard Admin</title>
+</head>
+<body>
+    <div>
+      <div class="navbar">
+        <h1 >Gamers <span class="span">Hub</span> </h1>
+        <div class="nav_bar">
+            <a href="/dashboard_admin">Dashboard</a>
+            <a href="">Games</a>
+            {% if session.user_id %}
+            <button class="btn btn-danger"><a href="/logout">Logout</a> </button>
+            {%else%}
+            <button class="btn btn-danger"><a href="/register_login">Sign Up</a> </button>
+            <button class="btn btn-danger"><a href="/register_login">Login</a> </button>
+            {%endif%}
+        </div>
+    </div>
+        <div class="container">
+           <form action="" method="" class="form">
+            <div class="search" >
+                <input type="text" name="" class="form-control" >
+                <button class="btn btn-danger btn_search">Search
+                </button>
+            </div>
+           </form>
+           <table class="table" style="margin-top:5%">
+            <thead >
+              <tr class="table-dark">
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for company in list_companies%}
+              <tr>
+                <td>{{company.name}}</td>
+                <td>{{company.email}}</td>
+                <td>
+                    {%if company.is_verified==1%}
+                    <button class="btn btn-success"><a href="/admin/companies/accept/{{company.id}}">Accept</a></button>
+                    <button class="btn btn-danger"><a href="/admin/company/delete/{{company.id}}">Delete</a></button>
+                    {%else%}
+                    <div style="display: flex;">
+                        <H4 style="color: green;">Accepted</H4>
+                        <button class="btn btn-danger"><a href="/admin/company/delete/{{company.id}}">Delete</a></button>
+                    </div>
+                    {%endif%}
+                 </td>
+              </tr>
+            {%endfor%}
+            </tbody>
+          </table>
+        </div>
+    </div>
+</body>
+</html>
